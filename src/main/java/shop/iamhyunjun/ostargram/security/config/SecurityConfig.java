@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean   // 기본 필터 체인 설정
+    @Bean   // 기본 필터 체인 설정 입니다.
     public SecurityFilterChain testFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .anyRequest().permitAll();
