@@ -78,8 +78,8 @@ public class UserController {
 
         Test test = new Test();
         testRepository.save(test);
-        System.out.println(test.getCreateAt());
-        System.out.println(test.getCreateBy());
+        System.out.println(test.getCreatedAt());
+        System.out.println(test.getCreatedBy());
         System.out.println(test.getModifiedAt());
 
     }
