@@ -56,6 +56,7 @@ public class UserController {
         User user = new User(username, password, role);
         userRepository.save(user);
 
+        System.out.println("signup Controller");
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
 
