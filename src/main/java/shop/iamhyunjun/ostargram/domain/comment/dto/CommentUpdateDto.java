@@ -1,4 +1,4 @@
-package my.board.dto;
+package shop.iamhyunjun.ostargram.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
