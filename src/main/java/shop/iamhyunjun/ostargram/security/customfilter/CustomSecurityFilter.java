@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.ReadOnlyBufferException;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
@@ -61,9 +63,9 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
         // request URI 가지고 온다.
         String requestUrl = request.getRequestURI();
 
-        // 컨텐츠 타입이 null이 아니고 && 요청이 /users/signup이 아닐때 진행
+        // 컨텐츠 타입이 null이 아니고 && 요청이 /users/login일 때만 진행
         if (contentType != null && "/users/login".equals(requestUrl)) {
-            
+
             if (request.getContentType().equals(MimeTypeUtils.APPLICATION_JSON_VALUE)) {
 
                 ServletInputStream inputStream = request.getInputStream();
@@ -91,20 +93,26 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
 
 
 
+                // 익셉션 포인트 1
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            // 비밀번호 확인
-            if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-                request.setAttribute("exception", "비밀번호가 일치하지 않습니다.");
-                throw new IllegalAccessError("비밀번호가 일치하지 않습니다.");
-            }
 
-            // 인증 객체 생성 및 등록
-            SecurityContext context = SecurityContextHolder.createEmptyContext();
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            context.setAuthentication(authentication);
+                // 익셉션 포인트 2
+                // 비밀번호 확인
+                if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+                    request.setAttribute("exception", "비밀번호가 일치하지 않습니다.");
+                    throw new IllegalAccessError("비밀번호가 일치하지 않습니다.");
+                }
 
-            SecurityContextHolder.setContext(context);
+                // 인증 객체 생성 및 등록
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                context.setAuthentication(authentication);
+
+                SecurityContextHolder.setContext(context);
+
+
+
         }
 
         filterChain.doFilter(request, response);
