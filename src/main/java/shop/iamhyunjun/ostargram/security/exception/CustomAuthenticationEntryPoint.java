@@ -1,6 +1,8 @@
 package shop.iamhyunjun.ostargram.security.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import shop.iamhyunjun.ostargram.security.dto.SecurityExceptionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +21,7 @@ import java.io.OutputStream;
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final SecurityExceptionDto exceptionDto =
-            new SecurityExceptionDto(HttpStatus.UNAUTHORIZED.value(), " 아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."); //HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            new SecurityExceptionDto(HttpStatus.UNAUTHORIZED.value(), "아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."); //HttpStatus.UNAUTHORIZED.getReasonPhrase());
 
     @Override
     public void commence(HttpServletRequest request,
@@ -27,15 +29,36 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                          AuthenticationException authenticationException) throws IOException {
 
 
-        System.out.println(authenticationException.getMessage());
+        String URI = request.getRequestURI();
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-        try (OutputStream os = response.getOutputStream()) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writeValue(os, exceptionDto);
-            os.flush();
+        if ("/users/login".equals(URI) || "/error".equals(URI)) {
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
+
+            try (OutputStream os = response.getOutputStream()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.writeValue(os, exceptionDto);
+                os.flush();
+            }
+
+        } else {
+            SecurityExceptionDto exceptionDto =
+                    new SecurityExceptionDto(HttpStatus.UNAUTHORIZED.value(), "잘못된 요청입니다.");
+
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
+            try (OutputStream os = response.getOutputStream()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.writeValue(os, exceptionDto);
+                os.flush();
+            }
+
+
         }
+
+
     }
 }
