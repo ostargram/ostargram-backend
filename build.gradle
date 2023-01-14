@@ -34,7 +34,9 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20220924'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.4.2'
 
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Swagger
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
 // validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'

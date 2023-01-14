@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SignupRequestDto {
+public class UserSignupRequestDto {
     private String username;
     private String password;
     private boolean admin = false;
