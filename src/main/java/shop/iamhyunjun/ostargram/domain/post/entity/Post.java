@@ -3,7 +3,7 @@ package shop.iamhyunjun.ostargram.domain.post.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.iamhyunjun.ostargram.domain.comment.entity.Comment;
-import shop.iamhyunjun.ostargram.domain.file.entity.Image;
+import shop.iamhyunjun.ostargram.domain.post.dto.PostUpdateDto;
 import shop.iamhyunjun.ostargram.domain.user.entity.User;
 import shop.iamhyunjun.ostargram.security.entity.BaseEntity;
 
@@ -38,6 +38,20 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
-    private Integer totalLikes;
+    private Integer totalLikes = 0;
+
+    public void update(PostUpdateDto postUpdateDto) {
+//        this.author = postUpdateDto.getAuthor();
+        this.title = postUpdateDto.getTitle();
+        this.content = postUpdateDto.getContent();
+    }
+
+    public void plusLike() {
+        this.totalLikes = totalLikes +1;
+    }
+
+    public void minusLike() {
+        this.totalLikes = totalLikes - 1;
+    }
 
 }
