@@ -18,9 +18,9 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/posts/{postId}/comments")
-    public String comment(@PathVariable Long postId, @RequestBody CommentSaveDto commentSaveDto,
-                          @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
-        commentService.commentSave(postId,commentSaveDto,userDetails);
+    public String comment(@PathVariable Long postId,
+                          @RequestBody CommentSaveDto commentSaveDto) throws IllegalAccessException {
+        commentService.commentSave(postId,commentSaveDto);
         return "commentSaved";
     }
 

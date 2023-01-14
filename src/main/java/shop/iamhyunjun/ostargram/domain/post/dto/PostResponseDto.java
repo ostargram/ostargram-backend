@@ -34,7 +34,7 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
-        this.totalLikes = getTotalLikes();
+        this.totalLikes = post.getTotalLikes();
         List<Comment> commentList1 = post.getCommentList();
         log.info("commentList = " + commentList.size());
         for (Comment comment : commentList1) {
