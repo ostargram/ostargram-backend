@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.iamhyunjun.ostargram.domain.post.dto.PostResponseDto;
+import shop.iamhyunjun.ostargram.domain.post.dto.PostListDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostSaveDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostUpdateDto;
 import shop.iamhyunjun.ostargram.domain.post.entity.Post;
@@ -22,11 +22,11 @@ public class PostService {
     private final PostRepository postRepository;
 
     //글 목록 조회
-    public List<PostResponseDto> findPosts() {
-        List<PostResponseDto> postList = new ArrayList<>();
+    public List<PostListDto> findPosts() {
+        List<PostListDto> postList = new ArrayList<>();
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         for (Post post : posts) {
-            postList.add(new PostResponseDto(post));
+            postList.add(new PostListDto(post));
         }
         return postList;
     }
@@ -53,8 +53,6 @@ public class PostService {
         Post foundPost = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 요청입니다.")
         );
-        log.info("foundPost = " + foundPost.getTitle());
-        log.info("userDetails = " + userDetails.getUser().getId());
         if (userDetails.getUser().getId().equals(foundPost.getCreatedBy())) {
             foundPost.update(postUpdateDto);
         } else throw new IllegalAccessException();
@@ -63,7 +61,6 @@ public class PostService {
     //글 삭제
     @Transactional
     public void delete(Long postId,UserDetailsImpl userDetails) throws IllegalAccessException {
-
         Post foundPost = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 요청입니다.")
         );

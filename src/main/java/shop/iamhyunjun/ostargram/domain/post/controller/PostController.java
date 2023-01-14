@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import shop.iamhyunjun.ostargram.domain.post.dto.PostListDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostResponseDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostSaveDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostUpdateDto;
@@ -28,7 +29,7 @@ public class PostController {
     //글 목록 조회
     @GetMapping
     public Result postList() {
-        List<PostResponseDto> postList = postService.findPosts();
+        List<PostListDto> postList = postService.findPosts();
         return new Result(postList);
     }
 
@@ -66,8 +67,6 @@ public class PostController {
     public String edit(@PathVariable Long postId,
                        @Validated @RequestBody PostUpdateDto postUpdateDto,
                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
-        log.info("PostUpdateDto = " + postUpdateDto.getTitle());
-        log.info("userDetails = " + userDetails.getUser().getId());
         postService.updatePost(postId, postUpdateDto,userDetails);
         return "edited";
     }

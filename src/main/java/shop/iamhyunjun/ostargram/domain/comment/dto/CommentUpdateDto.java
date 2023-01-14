@@ -12,9 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class CommentUpdateDto {
 
     @NotBlank
-    private String author;
-
-    @NotBlank
     private String text;
 
 }

@@ -17,36 +17,25 @@ public class CommentController {
 
     private final CommentService commentService;
 
-//    @GetMapping("/{postId}/comments")
-//    public ResponseEntity commentList(@PathVariable Long postId) {
-//        List<CommentResponseDto> commentList = commentService.findComments(postId);
-//        DTO dto = new DTO(commentList);
-//        return new ResponseEntity(dto, HttpStatus.OK);
-//    }
-//
-//    @Data
-//    @AllArgsConstructor
-//    static class DTO<T> {
-//        private T data;
-//    }
-
     @PostMapping("/posts/{postId}/comments")
     public String comment(@PathVariable Long postId, @RequestBody CommentSaveDto commentSaveDto,
-                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                          @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         commentService.commentSave(postId,commentSaveDto,userDetails);
         return "commentSaved";
     }
 
-    @PostMapping("/comments/{commentId}")
+    @PatchMapping("/comments/{commentId}")
     public String edit(@PathVariable Long commentId,
-                       @Validated @RequestBody CommentUpdateDto commentUpdateDto) {
-        commentService.updateComment(commentId, commentUpdateDto);
+                       @Validated @RequestBody CommentUpdateDto commentUpdateDto,
+                       @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+        commentService.updateComment(commentId, commentUpdateDto, userDetails);
         return "commentEdited";
     }
 
-    @DeleteMapping({"/comments/{commentId}"})
-    public String delete(@PathVariable Long commentId) {
-        commentService.delete(commentId);
+    @DeleteMapping("/comments/{commentId}")
+    public String delete(@PathVariable Long commentId,
+                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+        commentService.delete(commentId, userDetails);
         return "commentDeleted";
     }
 }
