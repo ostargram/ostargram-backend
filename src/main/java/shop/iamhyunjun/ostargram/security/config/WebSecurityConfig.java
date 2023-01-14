@@ -53,8 +53,6 @@ public class WebSecurityConfig {
         // CSRF 설정
         http.csrf().disable();
 
-
-
         http.authorizeRequests().antMatchers("/users/**").permitAll()
                 .anyRequest().authenticated();
 
@@ -65,11 +63,14 @@ public class WebSecurityConfig {
         http.addFilterBefore(new CustomSecurityFilter(userDetailsService, passwordEncoder()), UsernamePasswordAuthenticationFilter.class);
 
 
-        /// 401 인증 실패
-        http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
 
         // 403, 인가 실패
         http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+
+        /// 401 인증 실패
+        http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
+
+
 
 
         return http.build();

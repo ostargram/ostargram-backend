@@ -2,18 +2,21 @@ package shop.iamhyunjun.ostargram.domain.user.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import shop.iamhyunjun.ostargram.domain.user.dto.SignupRequestDto;
+import shop.iamhyunjun.ostargram.domain.user.dto.UserLoginResponseDto;
+import shop.iamhyunjun.ostargram.domain.user.dto.UserSignupRequestDto;
+import shop.iamhyunjun.ostargram.domain.user.dto.UserSignupResponseDto;
 import shop.iamhyunjun.ostargram.domain.user.entity.Test;
 import shop.iamhyunjun.ostargram.domain.user.entity.TestRepository;
 import shop.iamhyunjun.ostargram.domain.user.entity.User;
 import shop.iamhyunjun.ostargram.domain.user.entity.UserRoleEnum;
 import shop.iamhyunjun.ostargram.domain.user.repository.UserRepository;
+import shop.iamhyunjun.ostargram.domain.user.service.UserService;
 
 import java.util.Optional;
 
@@ -22,55 +25,31 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
+    private final UserService userService;
     private final TestRepository testRepository;
 
-    // ADMIN_TOKEN
-    private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+
 
 
     @PostMapping("/signup")
-    public String signup(@RequestBody SignupRequestDto signupRequestDto) {
-
-        String username = signupRequestDto.getUsername();
-        String password = passwordEncoder.encode(signupRequestDto.getPassword());
+    public ResponseEntity<UserSignupResponseDto> signup(@RequestBody UserSignupRequestDto userSignupRequestDto) {
 
 
-        // 회원 중복 확인
-        Optional<User> found = userRepository.findByUsername(username);
-        if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
-        }
+        UserSignupResponseDto userSignupResponseDto = userService.signup(userSignupRequestDto);
 
-        // 사용자 ROLE 확인
-        UserRoleEnum role = UserRoleEnum.USER;
-        if (signupRequestDto.isAdmin()) {
-            if (!signupRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
-            }
-            role = UserRoleEnum.ADMIN;
-        }
-
-        User user = new User(username, password, role);
-        userRepository.save(user);
-
-        System.out.println("signup Controller");
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-
-        return "redirect:/login-page";
+        return new ResponseEntity<>(userSignupResponseDto,
+                HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public String login(@AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("*********************************************************");
-        System.out.println("UserController.login");
-        System.out.println("userDetails.getUsername() = " + userDetails.getUsername());
-        System.out.println("*********************************************************");
+    public ResponseEntity<UserLoginResponseDto> login(@AuthenticationPrincipal UserDetails userDetails) {
 
-        return "redirect:/users/login-page";
+        UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(200, "로그인 성공!");
+
+
+        return new ResponseEntity<>(userLoginResponseDto,
+                HttpStatus.OK);
     }
 
     @GetMapping("/test")

@@ -46,7 +46,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
 
         String username = null;
         String password = null;
@@ -100,7 +100,6 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
                 // 익셉션 포인트 2
                 // 비밀번호 확인
                 if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-                    request.setAttribute("exception", "비밀번호가 일치하지 않습니다.");
                     throw new IllegalAccessError("비밀번호가 일치하지 않습니다.");
                 }
 
