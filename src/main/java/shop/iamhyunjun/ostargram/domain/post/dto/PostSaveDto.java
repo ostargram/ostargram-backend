@@ -1,4 +1,4 @@
-package my.board.dto;
+package shop.iamhyunjun.ostargram.domain.post.dto;
 
 import lombok.Data;
 
