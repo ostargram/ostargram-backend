@@ -17,6 +17,7 @@ public class CommentLikesService {
 
     private final CommentLikesRepository commentLikesRepository;
     private final CommentRepository commentRepository;
+
     @Transactional
     public CommentLikes execute(Long commentId, User user) {
         Optional<CommentLikes> optionalCommentLikes = commentLikesRepository.findByComment_IdAndCreatedBy(commentId, user.getId());
