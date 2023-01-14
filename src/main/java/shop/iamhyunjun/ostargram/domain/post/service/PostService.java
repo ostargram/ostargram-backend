@@ -21,6 +21,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    //글 목록 조회
     public List<PostResponseDto> findPosts() {
         List<PostResponseDto> postList = new ArrayList<>();
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
@@ -30,6 +31,7 @@ public class PostService {
         return postList;
     }
 
+    //글 단건 조회
     public Post findPost(Long postId) {
         Post foundPost = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 요청입니다.")
@@ -37,6 +39,7 @@ public class PostService {
         return foundPost;
     }
 
+    //글 작성
     @Transactional
     public Post save(PostSaveDto postSaveDto, UserDetailsImpl userDetails) {
         Post savePost = new Post(postSaveDto, userDetails.getUser());
@@ -44,6 +47,7 @@ public class PostService {
         return savePost;
     }
 
+    //글 수정
     @Transactional
     public void updatePost(Long postId, PostUpdateDto postUpdateDto, UserDetailsImpl userDetails) throws IllegalAccessException {
         Post foundPost = postRepository.findById(postId).orElseThrow(
@@ -56,6 +60,7 @@ public class PostService {
         } else throw new IllegalAccessException();
     }
 
+    //글 삭제
     @Transactional
     public void delete(Long postId,UserDetailsImpl userDetails) throws IllegalAccessException {
 

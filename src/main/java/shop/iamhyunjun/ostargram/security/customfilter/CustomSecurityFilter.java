@@ -3,36 +3,24 @@ package shop.iamhyunjun.ostargram.security.customfilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
-import org.apache.tomcat.util.json.ParseException;
-import org.json.JSONObject;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import shop.iamhyunjun.ostargram.domain.user.controller.UserController;
 import shop.iamhyunjun.ostargram.domain.user.dto.LoginRequestDto;
-import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsServiceImpl;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -83,13 +71,9 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
                 password = request.getParameter("password");
             }
         }
-
         log.info("request.getRequestURI() = " + request.getRequestURI());
 
-
         if (username != null && password != null && (request.getRequestURI().equals("/users/login") || request.getRequestURI().equals("/api/test-secured"))) {
-
-
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
