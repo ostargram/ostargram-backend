@@ -3,6 +3,7 @@ package shop.iamhyunjun.ostargram.domain.post.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.iamhyunjun.ostargram.domain.comment.entity.Comment;
+import shop.iamhyunjun.ostargram.domain.post.dto.PostSaveDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostUpdateDto;
 import shop.iamhyunjun.ostargram.domain.user.entity.User;
 import shop.iamhyunjun.ostargram.security.entity.BaseEntity;
@@ -40,8 +41,12 @@ public class Post extends BaseEntity {
 
     private Integer totalLikes = 0;
 
+    public Post(PostSaveDto postSaveDto) {
+        this.title = postSaveDto.getTitle();
+        this.content = postSaveDto.getContent();
+    }
+
     public void update(PostUpdateDto postUpdateDto) {
-//        this.author = postUpdateDto.getAuthor();
         this.title = postUpdateDto.getTitle();
         this.content = postUpdateDto.getContent();
     }
