@@ -12,8 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class CommentSaveDto {
 
     @NotBlank
-    private String author;
-
-    @NotBlank
     private String text;
+
 }

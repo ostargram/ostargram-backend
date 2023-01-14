@@ -25,5 +25,4 @@ public class BaseEntity {
     @CreatedBy
     private Long createdBy;
 
-
 }
