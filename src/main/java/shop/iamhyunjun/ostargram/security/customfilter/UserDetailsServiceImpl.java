@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import shop.iamhyunjun.ostargram.domain.user.entity.User;
 import shop.iamhyunjun.ostargram.domain.user.repository.UserRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -19,9 +21,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        Optional<User> userOptional = userRepository.findByUsername(username);
 
+
+        if (userOptional.isEmpty()){
+
+
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+        }
+
+
+        User user = userOptional.get();
         return new UserDetailsImpl(user, user.getUsername(), user.getPassword());
     }
 
