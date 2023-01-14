@@ -29,11 +29,13 @@ public class CommentLikes extends BaseEntity {
 
     public CommentLikes cancelLikeButton() {
         this.isLiked = false;
+        this.comment.minusLike();
         return this;
     }
 
     public CommentLikes pressLikeButton() {
         this.isLiked = true;
+        this.comment.plusLike();
         return this;
     }
 }
