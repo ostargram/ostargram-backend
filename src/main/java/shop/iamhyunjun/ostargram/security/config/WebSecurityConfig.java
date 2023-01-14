@@ -34,6 +34,20 @@ public class WebSecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final UserDetailsServiceImpl userDetailsService;
 
+    private static final String[] PERMIT_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            /* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -54,7 +68,9 @@ public class WebSecurityConfig {
         http.csrf().disable();
 
         http.authorizeRequests().antMatchers("/users/**").permitAll()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().authenticated();
+
 
         // Custom 로그인 페이지 사용
         http.formLogin().loginPage("/users/login-page").permitAll();
