@@ -2,6 +2,7 @@ package shop.iamhyunjun.ostargram.domain.likes.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.iamhyunjun.ostargram.domain.likes.entity.PostLikes;
 import shop.iamhyunjun.ostargram.domain.likes.repository.PostLikesRepository;
 import shop.iamhyunjun.ostargram.domain.post.entity.Post;
@@ -17,6 +18,7 @@ public class PostLikesService {
     private final PostLikesRepository postLikesRepository;
     private final PostRepository postRepository;
 
+    @Transactional
     public PostLikes execute(Long postId, User user) {
         Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPost_IdAndCreatedBy(postId, user.getId());
 

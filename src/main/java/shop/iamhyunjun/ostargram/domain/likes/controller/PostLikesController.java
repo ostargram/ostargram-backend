@@ -26,10 +26,10 @@ public class PostLikesController {
     private final PostLikesService postLikesService;
 
     @PostMapping("/posts/{postsId}/likes")
-    public ResponseEntity<LikeResponseMessage> likesPost(@PathVariable Long postId,
+    public ResponseEntity<LikeResponseMessage> likesPost(@PathVariable Long postsId,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        PostLikes postLikes = postLikesService.execute(postId, userDetails.getUser());
+        PostLikes postLikes = postLikesService.execute(postsId, userDetails.getUser());
 
         if (postLikes.isLiked()) {
             return sendLikeResponseMessage(LIKE_MESSAGE);

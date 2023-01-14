@@ -25,6 +25,7 @@ public class CommentLikes extends BaseEntity {
     public CommentLikes(Comment comment) {
         this.comment = comment;
         this.isLiked = true;
+        this.comment.plusLike();
     }
 
     public CommentLikes cancelLikeButton() {
