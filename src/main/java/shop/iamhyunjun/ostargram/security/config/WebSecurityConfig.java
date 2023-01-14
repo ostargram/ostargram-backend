@@ -17,6 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import shop.iamhyunjun.ostargram.security.customfilter.CustomSecurityFilter;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsServiceImpl;
 import shop.iamhyunjun.ostargram.security.dto.SecurityExceptionDto;
@@ -78,6 +81,7 @@ public class WebSecurityConfig {
         // Custom Filter 등록하기
         http.addFilterBefore(new CustomSecurityFilter(userDetailsService, passwordEncoder()), UsernamePasswordAuthenticationFilter.class);
 
+        http.cors();
 
 
         // 403, 인가 실패
@@ -90,6 +94,22 @@ public class WebSecurityConfig {
 
 
         return http.build();
+    }
+
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("authorization");
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+
     }
 
 }
