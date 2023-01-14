@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import shop.iamhyunjun.ostargram.domain.comment.dto.CommentSaveDto;
 import shop.iamhyunjun.ostargram.domain.comment.dto.CommentUpdateDto;
 import shop.iamhyunjun.ostargram.domain.post.entity.Post;
-import shop.iamhyunjun.ostargram.domain.user.entity.User;
 import shop.iamhyunjun.ostargram.security.entity.BaseEntity;
 
 import javax.persistence.*;
@@ -17,7 +16,7 @@ import javax.persistence.*;
 public class Comment extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 //    @Column(nullable = false)
@@ -32,12 +31,13 @@ public class Comment extends BaseEntity {
 
     private Integer totalLikes = 0;
 
-    public Comment(CommentSaveDto commentSaveDto, User user, Post post) {
-
+    public Comment(CommentSaveDto commentSaveDto, Post post) {
+        this.text = commentSaveDto.getText();
+        this.post = post;
     }
 
+    //댓글 수정
     public void updateComment(CommentUpdateDto commentUpdateDto) {
-//        this.author = commentUpdateDto.getAuthor();
         this.text = commentUpdateDto.getText();
     }
 
