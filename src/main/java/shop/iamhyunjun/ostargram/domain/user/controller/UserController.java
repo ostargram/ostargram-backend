@@ -52,15 +52,5 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/test")
-    public void test() {
-
-        Test test = new Test();
-        testRepository.save(test);
-        System.out.println(test.getCreatedAt());
-        System.out.println(test.getCreatedBy());
-        System.out.println(test.getModifiedAt());
-
-    }
 
 }
