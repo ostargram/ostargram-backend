@@ -38,34 +38,34 @@ public class PostService {
     }
 
     @Transactional
-    public Post save(PostSaveDto postSaveDto) {
-        Post savePost = new Post(postSaveDto);
+    public Post save(PostSaveDto postSaveDto, UserDetailsImpl userDetails) {
+        Post savePost = new Post(postSaveDto, userDetails.getUser());
         postRepository.save(savePost);
         return savePost;
     }
 
     @Transactional
-    public void updatePost(Long postId, PostUpdateDto postUpdateDto, UserDetailsImpl userDetails) {
+    public void updatePost(Long postId, PostUpdateDto postUpdateDto, UserDetailsImpl userDetails) throws IllegalAccessException {
         Post foundPost = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 요청입니다.")
         );
-        if (userDetails.getUser().getId().equals(foundPost.getUser().getId())) {
+        log.info("foundPost = " + foundPost.getTitle());
+        log.info("userDetails = " + userDetails.getUser().getId());
+        if (userDetails.getUser().getId().equals(foundPost.getCreatedBy())) {
             foundPost.update(postUpdateDto);
-        } else throw new IllegalAccessError();
+        } else throw new IllegalAccessException();
     }
 
     @Transactional
-    public void delete(Long postId,UserDetailsImpl userDetails) {
+    public void delete(Long postId,UserDetailsImpl userDetails) throws IllegalAccessException {
 
         Post foundPost = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 요청입니다.")
         );
-        if (userDetails.getUser().getId().equals(foundPost.getUser().getId())){
+        if (userDetails.getUser().getId().equals(foundPost.getCreatedBy())){
             postRepository.deleteById(postId);
-        } else throw new IllegalAccessError();
+        } else throw new IllegalAccessException();
 
     }
-
-
 
 }

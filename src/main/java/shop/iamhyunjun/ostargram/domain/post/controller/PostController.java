@@ -39,9 +39,12 @@ public class PostController {
     }
 
     //글 작성
-    @PostMapping("/write")
-    public String write(@Validated @ModelAttribute PostSaveDto postSaveDto) {
-        postService.save(postSaveDto);
+    @PostMapping
+    public String write(@Validated @RequestBody PostSaveDto postSaveDto, UserDetailsImpl userDetails) {
+        log.info("postSaveDto = " + postSaveDto );
+        log.info("postSaveDto.title = " + postSaveDto.getTitle());
+        log.info("postSaveDto.content = " + postSaveDto.getContent());
+        postService.save(postSaveDto,userDetails);
         return "posted";
     }
 
@@ -59,10 +62,12 @@ public class PostController {
     }
 
     //글 수정
-    @PostMapping("/{postId}/edit")
+    @PatchMapping("/{postId}")
     public String edit(@PathVariable Long postId,
-                       @Validated @ModelAttribute PostUpdateDto postUpdateDto,
-                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                       @Validated @RequestBody PostUpdateDto postUpdateDto,
+                       @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+        log.info("PostUpdateDto = " + postUpdateDto.getTitle());
+        log.info("userDetails = " + userDetails.getUser().getId());
         postService.updatePost(postId, postUpdateDto,userDetails);
         return "edited";
     }
@@ -70,7 +75,7 @@ public class PostController {
     //글 삭제
     @DeleteMapping("/{postId}")
     public String delete(@PathVariable Long postId,
-                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         postService.delete(postId,userDetails);
         return "deleted";
     }
