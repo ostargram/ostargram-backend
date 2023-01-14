@@ -52,6 +52,8 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
         String password = null;
 
 
+
+
         // 기존의 시큐리티 내부 로직은 인증 시 데이터를 폼(POST)데이터로 받을 때만 처리해 놓았음.
         // 그래서 기존에 JSON Data가 들어오면 아마 null 값이 담기는데
         // Object Mapper를 이용해서 JSON Type이 들어올 경우
@@ -85,6 +87,13 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
                 password = request.getParameter("password");
             }
         }
+
+        // Swagger용 로그인 -> Swagger : contentType : null
+        if (contentType == null) {
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+        }
+
 
         log.info("request.getRequestURI() = " + request.getRequestURI());
 
