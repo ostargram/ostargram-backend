@@ -41,9 +41,10 @@ public class Post extends BaseEntity {
 
     private Integer totalLikes = 0;
 
-    public Post(PostSaveDto postSaveDto) {
+    public Post(PostSaveDto postSaveDto, User user) {
         this.title = postSaveDto.getTitle();
         this.content = postSaveDto.getContent();
+        this.user = user;
     }
 
     public void update(PostUpdateDto postUpdateDto) {
