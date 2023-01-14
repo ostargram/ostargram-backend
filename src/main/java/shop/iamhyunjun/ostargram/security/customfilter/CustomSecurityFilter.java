@@ -6,12 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StreamUtils;
@@ -44,8 +46,8 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String username;
-        String password;
+        String username = null;
+        String password = null;
 
 
         // 기존의 시큐리티 내부 로직은 인증 시 데이터를 폼(POST)데이터로 받을 때만 처리해 놓았음.
@@ -60,7 +62,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
         String requestUrl = request.getRequestURI();
 
         // 컨텐츠 타입이 null이 아니고 && 요청이 /users/signup이 아닐때 진행
-        if (contentType != null && !"/users/signup".equals(requestUrl)) {
+        if (contentType != null && "/users/login".equals(requestUrl)) {
             
             if (request.getContentType().equals(MimeTypeUtils.APPLICATION_JSON_VALUE)) {
 
@@ -80,19 +82,20 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
                 username = request.getParameter("username");
                 password = request.getParameter("password");
             }
-        }else {
-            username = null;
-            password = null;
         }
 
         log.info("request.getRequestURI() = " + request.getRequestURI());
 
 
         if (username != null && password != null && (request.getRequestURI().equals("/users/login") || request.getRequestURI().equals("/api/test-secured"))) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             // 비밀번호 확인
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+                request.setAttribute("exception", "비밀번호가 일치하지 않습니다.");
                 throw new IllegalAccessError("비밀번호가 일치하지 않습니다.");
             }
 
