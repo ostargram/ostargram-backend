@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import shop.iamhyunjun.ostargram.domain.user.dto.UserLoginResponseDto;
 import shop.iamhyunjun.ostargram.domain.user.dto.UserSignupRequestDto;
@@ -25,7 +27,7 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<UserSignupResponseDto> signup(@RequestBody UserSignupRequestDto userSignupRequestDto) {
+    public ResponseEntity<UserSignupResponseDto> signup(@RequestBody @Validated UserSignupRequestDto userSignupRequestDto) {
 
 
         UserSignupResponseDto userSignupResponseDto = userService.signup(userSignupRequestDto);

@@ -23,12 +23,24 @@ public class User extends TimeStamped{
     private String password;
 
     @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private UserRoleEnum role;
+    private String checkPassword;
 
-    public User(String username, String password, UserRoleEnum role) {
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String gender;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role = UserRoleEnum.USER;
+
+    public User(String username, String password, String checkPassword, String email, String gender) {
+
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.checkPassword = checkPassword;
+        this.email = email;
+        this.gender = gender;
     }
 }
