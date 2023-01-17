@@ -6,5 +6,5 @@ import shop.iamhyunjun.ostargram.domain.likes.entity.PostLikes;
 import java.util.Optional;
 
 public interface PostLikesRepository extends JpaRepository<PostLikes, Long> {
-    Optional<PostLikes> findByPost_IdAndCreatedBy(Long postId, Long userId);
+    Optional<PostLikes> findByPostIdAndCreatedBy(Long postId, Long userId);
 }

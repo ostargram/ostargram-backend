@@ -20,7 +20,7 @@ public class PostLikesService {
 
     @Transactional
     public PostLikes execute(Long postId, User user) {
-        Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPost_IdAndCreatedBy(postId, user.getId());
+        Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPostIdAndCreatedBy(postId, user.getId());
 
         // 좋아요 한 적 없을 때
         if (optionalPostLikes.isEmpty()) {
@@ -42,7 +42,7 @@ public class PostLikesService {
     }
 
     public Boolean checkLikes(Long postId, User user) {
-        Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPost_IdAndCreatedBy(postId, user.getId());
+        Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPostIdAndCreatedBy(postId, user.getId());
 
         if (optionalPostLikes.isEmpty()) {
             postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 게시글"));
