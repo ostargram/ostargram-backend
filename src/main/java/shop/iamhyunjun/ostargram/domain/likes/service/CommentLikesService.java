@@ -39,4 +39,16 @@ public class CommentLikesService {
         // 좋아요 버튼이 눌러져 있지 않다면 -> 눌렀을 때 좋아요
         return commentLikes.pressLikeButton();
     }
+
+    public Boolean checkLikes(Long postId, User user) {
+        Optional<CommentLikes> optionalCommentLikes = commentLikesRepository.findByCommentIdAndCreatedBy(postId, user.getId());
+
+        if (optionalCommentLikes.isEmpty()) {
+            commentRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 댓글"));
+        }
+
+        CommentLikes commentLikes = optionalCommentLikes.orElseThrow(() -> new IllegalArgumentException("좋아요를 누른 적이 없습니다."));
+
+        return commentLikes.isLiked();
+    }
 }
