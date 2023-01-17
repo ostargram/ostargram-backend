@@ -16,6 +16,7 @@ import shop.iamhyunjun.ostargram.domain.likes.entity.CommentLikes;
 import shop.iamhyunjun.ostargram.domain.likes.service.CommentLikesService;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsImpl;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static shop.iamhyunjun.ostargram.domain.likes.dto.LikeMessage.LIKE_CANCEL_MESSAGE;
 import static shop.iamhyunjun.ostargram.domain.likes.dto.LikeMessage.LIKE_MESSAGE;
@@ -40,7 +41,7 @@ public class CommentLikesController {
     }
 
     private ResponseEntity<LikeResponseMessage> sendLikeResponseMessage(LikeMessage likeMessage) {
-        LikeResponseMessage responseMessage = new LikeResponseMessage(OK.value(), likeMessage.getMessage());
+        LikeResponseMessage responseMessage = new LikeResponseMessage(CREATED.value(), likeMessage.getMessage());
         return new ResponseEntity<>(responseMessage, HttpStatus.valueOf(responseMessage.getStatus()));
     }
 
