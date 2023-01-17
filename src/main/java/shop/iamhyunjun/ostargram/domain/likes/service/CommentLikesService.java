@@ -46,9 +46,10 @@ public class CommentLikesService {
         if (optionalCommentLikes.isEmpty()) {
             commentRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 댓글"));
         }
+        if (optionalCommentLikes.isEmpty()) {
+            return false;
+        }
 
-        CommentLikes commentLikes = optionalCommentLikes.orElseThrow(() -> new IllegalArgumentException("좋아요를 누른 적이 없습니다."));
-
-        return commentLikes.isLiked();
+        return optionalCommentLikes.get().isLiked();
     }
 }
