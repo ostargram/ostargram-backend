@@ -39,6 +39,17 @@ public class PostLikesService {
         // 좋아요 버튼이 눌러져 있지 않다면 -> 눌렀을 때 좋아요
         return postLikes.pressLikeButton();
 
+    }
 
+    public Boolean checkLikes(Long postId, User user) {
+        Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPost_IdAndCreatedBy(postId, user.getId());
+
+        if (optionalPostLikes.isEmpty()) {
+            postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 게시글"));
+        }
+
+        PostLikes postLikes = optionalPostLikes.orElseThrow(() -> new IllegalArgumentException("좋아요를 누른 적이 없습니다."));
+
+        return postLikes.isLiked();
     }
 }
