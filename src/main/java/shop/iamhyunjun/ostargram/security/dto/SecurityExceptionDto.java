@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SecurityExceptionDto {
 
-    private int statusCode;
-    private String msg;
+    private int status;
+    private String message;
 
-    public SecurityExceptionDto(int statusCode, String msg) {
-        this.statusCode = statusCode;
-        this.msg = msg;
+    public SecurityExceptionDto(int status, String message) {
+        this.status = status;
+        this.message = message;
     }
 }

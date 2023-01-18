@@ -2,6 +2,7 @@ package shop.iamhyunjun.ostargram.domain.user.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,41 +11,43 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import shop.iamhyunjun.ostargram.domain.user.dto.LoginRequestDto;
 import shop.iamhyunjun.ostargram.domain.user.dto.UserLoginResponseDto;
 import shop.iamhyunjun.ostargram.domain.user.dto.UserSignupRequestDto;
 import shop.iamhyunjun.ostargram.domain.user.dto.UserSignupResponseDto;
 
 import shop.iamhyunjun.ostargram.domain.user.service.UserService;
+import shop.iamhyunjun.ostargram.security.message.ResponseMessage;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
-
-
     private final UserService userService;
 
-
     @PostMapping("/signup")
-    public ResponseEntity<UserSignupResponseDto> signup(@RequestBody @Validated UserSignupRequestDto userSignupRequestDto) {
+    public ResponseEntity<UserSignupResponseDto> signup(@RequestBody @Validated UserSignupRequestDto userSignupRequestDto) throws Exception {
 
 
         UserSignupResponseDto userSignupResponseDto = userService.signup(userSignupRequestDto);
 
         return new ResponseEntity<>(userSignupResponseDto,
-                HttpStatus.OK);
+                HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> login(@AuthenticationPrincipal UserDetails userDetails) {
 
-        UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(200, "로그인 성공!");
+        UserLoginResponseDto userLoginResponseDto =
+                new UserLoginResponseDto(200, ResponseMessage.LOGIN_SUCCESS);
 
 
         return new ResponseEntity<>(userLoginResponseDto,
                 HttpStatus.OK);
     }
-
 
 }

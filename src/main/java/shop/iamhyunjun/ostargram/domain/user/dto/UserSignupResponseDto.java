@@ -1,7 +1,6 @@
 package shop.iamhyunjun.ostargram.domain.user.dto;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -12,12 +11,12 @@ import lombok.Getter;
 @Builder
 public class UserSignupResponseDto<T> {
 
-    private int statusCode;
-    private String responseMessage;
+    private int status;
+    private String message;
 
 
-    public UserSignupResponseDto(int statusCode, String responseMessage) {
-        this.statusCode = statusCode;
-        this.responseMessage = responseMessage;
+    public UserSignupResponseDto(int status, String message) {
+        this.status = status;
+        this.message = message;
     }
 }

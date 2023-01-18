@@ -9,6 +9,7 @@ public class OstargramApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(OstargramApplication.class, args);
+
     }
 
 }

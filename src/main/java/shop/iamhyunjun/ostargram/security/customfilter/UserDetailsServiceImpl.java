@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import shop.iamhyunjun.ostargram.domain.user.entity.User;
 import shop.iamhyunjun.ostargram.domain.user.repository.UserRepository;
+import shop.iamhyunjun.ostargram.security.message.ResponseMessage;
 
 import java.util.Optional;
 
@@ -22,13 +23,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Optional<User> userOptional = userRepository.findByUsername(username);
 
-        if (userOptional.isEmpty()){
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException(ResponseMessage.LOGIN_FAIL_ID_OR_PASSWORD);
         }
-
-
         User user = userOptional.get();
         return new UserDetailsImpl(user, user.getUsername(), user.getPassword());
+    }
+
+    public int userEmailCheck(String username) {
+
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            int emailCheck = user.getEmailCheck();
+
+            if (emailCheck == 1) {
+                return 1;
+            }
+        }
+        throw new IllegalArgumentException(ResponseMessage.LOGIN_FAIL_CHECK_EMAIL);
     }
 
 }
