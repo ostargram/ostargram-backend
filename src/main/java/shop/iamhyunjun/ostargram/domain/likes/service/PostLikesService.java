@@ -46,9 +46,6 @@ public class PostLikesService {
 
         if (optionalPostLikes.isEmpty()) {
             postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 게시글"));
-        }
-
-        if (optionalPostLikes.isEmpty()) {
             return false;
         }
 
