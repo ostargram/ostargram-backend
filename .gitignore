@@ -18,6 +18,10 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+application-database.properties
+application-jwt.properties
+application-email.properties
+application-session.properties
 .idea
 *.iws
 *.iml

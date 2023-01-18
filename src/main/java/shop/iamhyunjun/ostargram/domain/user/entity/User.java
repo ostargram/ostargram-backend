@@ -2,6 +2,9 @@ package shop.iamhyunjun.ostargram.domain.user.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.validation.annotation.Validated;
+import shop.iamhyunjun.ostargram.domain.email.entity.EmailValidation;
 import shop.iamhyunjun.ostargram.security.entity.TimeStamped;
 
 import javax.persistence.*;
@@ -23,9 +26,6 @@ public class User extends TimeStamped{
     private String password;
 
     @Column(nullable = false)
-    private String checkPassword;
-
-    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -35,12 +35,21 @@ public class User extends TimeStamped{
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role = UserRoleEnum.USER;
 
-    public User(String username, String password, String checkPassword, String email, String gender) {
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int emailCheck;
+
+
+
+    public User(String username, String password, String email, String gender) {
 
         this.username = username;
         this.password = password;
-        this.checkPassword = checkPassword;
         this.email = email;
         this.gender = gender;
+    }
+
+    public void updateUserEmailCheck() {
+        this.emailCheck = 1;
     }
 }
