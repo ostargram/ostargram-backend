@@ -25,7 +25,7 @@ public class CommentLikesService {
         // 좋아요 한 적 없을 때
         if (optionalCommentLikes.isEmpty()) {
             Comment comment = commentRepository.findById(commentId).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않은 게시글")
+                    () -> new IllegalArgumentException("존재하지 않는 댓글")
             );
             return commentLikesRepository.save(new CommentLikes(comment));
         }
@@ -44,11 +44,10 @@ public class CommentLikesService {
         Optional<CommentLikes> optionalCommentLikes = commentLikesRepository.findByCommentIdAndCreatedBy(postId, user.getId());
 
         if (optionalCommentLikes.isEmpty()) {
-            commentRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 댓글"));
+            commentRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글"));
+            return false;
         }
 
-        CommentLikes commentLikes = optionalCommentLikes.orElseThrow(() -> new IllegalArgumentException("좋아요를 누른 적이 없습니다."));
-
-        return commentLikes.isLiked();
+        return optionalCommentLikes.get().isLiked();
     }
 }
