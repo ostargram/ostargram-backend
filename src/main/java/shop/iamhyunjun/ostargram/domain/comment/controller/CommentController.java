@@ -2,12 +2,15 @@ package shop.iamhyunjun.ostargram.domain.comment.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import shop.iamhyunjun.ostargram.domain.comment.dto.CommentSaveDto;
 import shop.iamhyunjun.ostargram.domain.comment.dto.CommentUpdateDto;
 import shop.iamhyunjun.ostargram.domain.comment.service.CommentService;
+import shop.iamhyunjun.ostargram.domain.post.dto.PostMessageDto;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsImpl;
 
 @Slf4j
@@ -18,24 +21,27 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/posts/{postId}/comments")
-    public String comment(@PathVariable Long postId, @RequestBody CommentSaveDto commentSaveDto,
-                          @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
-        commentService.commentSave(postId,commentSaveDto,userDetails);
-        return "commentSaved";
+    public ResponseEntity<PostMessageDto> comment(@PathVariable Long postId,
+                          @RequestBody CommentSaveDto commentSaveDto) throws IllegalAccessException {
+        commentService.commentSave(postId,commentSaveDto);
+        PostMessageDto postMessageDto = new PostMessageDto(201, "CREATED");
+        return new ResponseEntity<>(postMessageDto, HttpStatus.CREATED);
     }
 
     @PatchMapping("/comments/{commentId}")
-    public String edit(@PathVariable Long commentId,
+    public ResponseEntity<PostMessageDto> edit(@PathVariable Long commentId,
                        @Validated @RequestBody CommentUpdateDto commentUpdateDto,
                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         commentService.updateComment(commentId, commentUpdateDto, userDetails);
-        return "commentEdited";
+        PostMessageDto postMessageDto = new PostMessageDto(200, "OK");
+        return new ResponseEntity<>(postMessageDto,HttpStatus.OK);
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public String delete(@PathVariable Long commentId,
+    public ResponseEntity<PostMessageDto> delete(@PathVariable Long commentId,
                          @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         commentService.delete(commentId, userDetails);
-        return "commentDeleted";
+        PostMessageDto postMessageDto = new PostMessageDto(200, "OK");
+        return new ResponseEntity<>(postMessageDto,HttpStatus.OK);
     }
 }

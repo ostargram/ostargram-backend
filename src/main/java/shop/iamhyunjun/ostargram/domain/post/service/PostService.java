@@ -55,7 +55,7 @@ public class PostService {
         );
         if (userDetails.getUser().getId().equals(foundPost.getCreatedBy())) {
             foundPost.update(postUpdateDto);
-        } else throw new IllegalAccessException();
+        } else throw new IllegalAccessException("권한이 없습니다.");
     }
 
     //글 삭제
@@ -66,7 +66,7 @@ public class PostService {
         );
         if (userDetails.getUser().getId().equals(foundPost.getCreatedBy())){
             postRepository.deleteById(postId);
-        } else throw new IllegalAccessException();
+        } else throw new IllegalAccessException("권한이 없습니다.");
 
     }
 
