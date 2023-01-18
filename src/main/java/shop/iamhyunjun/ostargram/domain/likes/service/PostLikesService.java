@@ -11,6 +11,8 @@ import shop.iamhyunjun.ostargram.domain.user.entity.User;
 
 import java.util.Optional;
 
+import static shop.iamhyunjun.ostargram.exception.message.ExceptionMessageEnum.NOT_EXISTED_POST;
+
 @Service
 @RequiredArgsConstructor
 public class PostLikesService {
@@ -25,7 +27,7 @@ public class PostLikesService {
         // 좋아요 한 적 없을 때
         if (optionalPostLikes.isEmpty()) {
             Post post = postRepository.findById(postId).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않은 게시글")
+                    () -> new IllegalArgumentException(NOT_EXISTED_POST.getMessage())
             );
             return postLikesRepository.save(new PostLikes(post));
         }
@@ -45,7 +47,7 @@ public class PostLikesService {
         Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPostIdAndCreatedBy(postId, user.getId());
 
         if (optionalPostLikes.isEmpty()) {
-            postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 게시글"));
+            postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_POST.getMessage()));
             return false;
         }
 

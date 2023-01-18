@@ -11,6 +11,8 @@ import shop.iamhyunjun.ostargram.domain.user.entity.User;
 
 import java.util.Optional;
 
+import static shop.iamhyunjun.ostargram.exception.message.ExceptionMessageEnum.NOT_EXISTED_COMMENT;
+
 @Service
 @RequiredArgsConstructor
 public class CommentLikesService {
@@ -25,7 +27,7 @@ public class CommentLikesService {
         // 좋아요 한 적 없을 때
         if (optionalCommentLikes.isEmpty()) {
             Comment comment = commentRepository.findById(commentId).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않는 댓글")
+                    () -> new IllegalArgumentException(NOT_EXISTED_COMMENT.getMessage())
             );
             return commentLikesRepository.save(new CommentLikes(comment));
         }
@@ -44,7 +46,7 @@ public class CommentLikesService {
         Optional<CommentLikes> optionalCommentLikes = commentLikesRepository.findByCommentIdAndCreatedBy(postId, user.getId());
 
         if (optionalCommentLikes.isEmpty()) {
-            commentRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글"));
+            commentRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_COMMENT.getMessage()));
             return false;
         }
 
