@@ -33,13 +33,14 @@ public class PostController {
 
     //글 작성
     @PostMapping
-    public String write(@Validated @RequestBody PostSaveDto postSaveDto,
+    public ResponseEntity<PostMessageDto> write(@Validated @RequestBody PostSaveDto postSaveDto,
                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("postSaveDto = " + postSaveDto );
         log.info("postSaveDto.title = " + postSaveDto.getTitle());
         log.info("postSaveDto.content = " + postSaveDto.getContent());
         postService.save(postSaveDto,userDetails);
-        return "posted";
+        PostMessageDto postMessageDto = new PostMessageDto(201, "CREATED");
+        return new ResponseEntity<>(postMessageDto, HttpStatus.CREATED);
     }
 
     //글 단건 조회
@@ -52,18 +53,20 @@ public class PostController {
 
     //글 수정
     @PatchMapping("/{postId}")
-    public String edit(@PathVariable Long postId,
+    public ResponseEntity<PostMessageDto> edit(@PathVariable Long postId,
                        @Validated @RequestBody PostUpdateDto postUpdateDto,
                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         postService.updatePost(postId, postUpdateDto,userDetails);
-        return "edited";
+        PostMessageDto postMessageDto = new PostMessageDto(200, "OK");
+        return new ResponseEntity<>(postMessageDto,HttpStatus.OK);
     }
 
     //글 삭제
     @DeleteMapping("/{postId}")
-    public String delete(@PathVariable Long postId,
+    public ResponseEntity<PostMessageDto> delete(@PathVariable Long postId,
                          @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         postService.delete(postId,userDetails);
-        return "deleted";
+        PostMessageDto postMessageDto = new PostMessageDto(200, "OK");
+        return new ResponseEntity<>(postMessageDto,HttpStatus.OK);
     }
 }

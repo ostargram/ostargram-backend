@@ -30,7 +30,7 @@ public class Post extends BaseEntity {
 
     private String content;
 
-//    private Image image;
+    private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
