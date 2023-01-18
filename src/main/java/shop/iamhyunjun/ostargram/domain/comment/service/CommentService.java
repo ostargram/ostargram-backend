@@ -20,14 +20,16 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
+    //댓글 저장
     @Transactional
-    public void commentSave(Long postId, CommentSaveDto commentSaveDto, UserDetailsImpl userDetails) throws IllegalAccessException {
+    public void commentSave(Long postId, CommentSaveDto commentSaveDto) throws IllegalAccessException {
         Post foundPost = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.")
         );
             commentRepository.save(new Comment(commentSaveDto, foundPost));
     }
 
+    //댓글 수정
     @Transactional
     public void updateComment(Long commentId, CommentUpdateDto commentUpdateDto, UserDetailsImpl userDetails) throws IllegalAccessException {
         log.info("commentId = " + commentId);
@@ -40,8 +42,7 @@ public class CommentService {
 
         if (userDetails.getUser().getId().equals(foundComment.getCreatedBy())) {
             foundComment.updateComment(commentUpdateDto);
-        } else throw new IllegalAccessException("잘못된 접근입니다.");
-
+        } else throw new IllegalAccessException("권한이 없습니다.");
     }
 
     //댓글 삭제
@@ -52,7 +53,7 @@ public class CommentService {
         );
         if (userDetails.getUser().getId().equals(foundComment.getCreatedBy())) {
             commentRepository.deleteById(commentId);
-        } else throw new IllegalAccessException();
+        } else throw new IllegalAccessException("권한이 없습니다.");
     }
 
 
