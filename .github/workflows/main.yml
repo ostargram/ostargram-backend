@@ -43,7 +43,7 @@ jobs:
       shell: bash
 
     - name: Make zip file
-      run: zip -r ./wef.zip .
+      run: zip -r ./ostargram.zip .
       shell: bash
 
     - name: Configure AWS credentials
