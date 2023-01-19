@@ -67,5 +67,5 @@ jobs:
         --application-name ostargram
         --deployment-group-name ostargram
         --file-exists-behavior OVERWRITE 
-        --s3-location bucket=ostargram-bucket,bundleType=zip,key=ostargram.zip
+        --s3-location bucket=ostargram,bundleType=zip,key=ostargram.zip
         --region ap-northeast-2
