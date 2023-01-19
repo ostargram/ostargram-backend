@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  S3_BUCKET_NAME: hyunjun1994
+  S3_BUCKET_NAME: ostargram
 
 jobs:
   build:
