@@ -78,6 +78,8 @@ public class WebSecurityConfig {
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .antMatchers("/invalid").permitAll()
                 .antMatchers("/expired").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .anyRequest().authenticated();
 
 
