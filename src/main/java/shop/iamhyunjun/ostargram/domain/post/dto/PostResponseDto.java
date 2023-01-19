@@ -1,6 +1,6 @@
 package shop.iamhyunjun.ostargram.domain.post.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import shop.iamhyunjun.ostargram.domain.comment.dto.CommentResponseDto;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Data
+@Getter
 @Slf4j
 @NoArgsConstructor
 public class PostResponseDto {

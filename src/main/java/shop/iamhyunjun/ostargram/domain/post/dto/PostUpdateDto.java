@@ -1,10 +1,10 @@
 package shop.iamhyunjun.ostargram.domain.post.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
 public class PostUpdateDto {
 
     @NotBlank

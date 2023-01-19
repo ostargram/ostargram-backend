@@ -15,7 +15,6 @@ import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsImpl;
 
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +28,7 @@ public class PostController {
     @GetMapping
     public ResponseEntity<PostDataDto> postList() {
         List<PostListDto> postList = postService.findPosts();
-        PostDataDto postDataDto = new PostDataDto(200, "글 목록 조회 성공", postList);
+        PostDataDto postDataDto = new PostDataDto(200, "글 목록 조회 완료", postList);
         return new ResponseEntity<>(postDataDto, HttpStatus.OK);
     }
 
@@ -47,7 +46,7 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<PostDataDto> seePost(@PathVariable Long postId) {
         Post post = postService.findPost(postId);
-        PostDataDto postDataDto = new PostDataDto(200, "글 조회 성공", new PostResponseDto(post));
+        PostDataDto postDataDto = new PostDataDto(200, "글 조회 완료", new PostResponseDto(post));
         return new ResponseEntity<>(postDataDto, HttpStatus.OK);
     }
 

@@ -1,13 +1,13 @@
 package shop.iamhyunjun.ostargram.domain.post.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import shop.iamhyunjun.ostargram.domain.post.entity.Post;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @Slf4j
 @NoArgsConstructor
 public class PostListDto {

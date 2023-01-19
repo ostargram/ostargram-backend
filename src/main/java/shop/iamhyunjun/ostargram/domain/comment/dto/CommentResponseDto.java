@@ -1,12 +1,12 @@
 package shop.iamhyunjun.ostargram.domain.comment.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.iamhyunjun.ostargram.domain.comment.entity.Comment;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class CommentResponseDto {
 
