@@ -3,11 +3,12 @@ package shop.iamhyunjun.ostargram.domain.file.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 import shop.iamhyunjun.ostargram.domain.post.entity.Post;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,19 +18,7 @@ public class Image {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
-    private String author;
-
-    @Column(nullable = false)
-    private String text;
-
-//    @OneToOne(cascade = CascadeType.ALL,fetch = LAZY)
-//    @JoinColumn(name = "post_id")
-//    private Post post;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    private MultipartFile multipartFile;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")

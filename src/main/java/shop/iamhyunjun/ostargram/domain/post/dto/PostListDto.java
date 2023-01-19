@@ -1,13 +1,13 @@
 package shop.iamhyunjun.ostargram.domain.post.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import shop.iamhyunjun.ostargram.domain.post.entity.Post;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @Slf4j
 @NoArgsConstructor
 public class PostListDto {
@@ -18,6 +18,8 @@ public class PostListDto {
 
     private String content;
 
+    private String image;
+
     private LocalDateTime createdAt;
 
     private Integer totalLikes = 0;
@@ -26,6 +28,7 @@ public class PostListDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
+        this.image = post.getImage();
         this.createdAt = post.getCreatedAt();
         this.totalLikes = post.getTotalLikes();
     }

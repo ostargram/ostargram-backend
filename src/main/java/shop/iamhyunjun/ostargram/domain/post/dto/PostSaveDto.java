@@ -1,10 +1,11 @@
 package shop.iamhyunjun.ostargram.domain.post.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
 public class PostSaveDto {
 
     @NotBlank
@@ -12,4 +13,11 @@ public class PostSaveDto {
 
     private String content;
 
+    private MultipartFile image;
+
+    public PostSaveDto(String title, String content, MultipartFile image) {
+        this.title = title;
+        this.content = content;
+        this.image = image;
+    }
 }

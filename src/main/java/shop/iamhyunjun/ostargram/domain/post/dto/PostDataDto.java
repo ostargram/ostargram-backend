@@ -1,11 +1,11 @@
 package shop.iamhyunjun.ostargram.domain.post.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Data
+@Getter
 @NoArgsConstructor
 public class PostDataDto {
     private Integer status;

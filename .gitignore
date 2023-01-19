@@ -22,6 +22,7 @@ application-database.properties
 application-jwt.properties
 application-email.properties
 application-session.properties
+application-s3.properties
 .idea
 *.iws
 *.iml
