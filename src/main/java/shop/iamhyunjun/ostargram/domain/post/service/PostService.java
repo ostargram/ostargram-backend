@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostListDto;
+import shop.iamhyunjun.ostargram.domain.post.dto.PostResponseDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostSaveDto;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostUpdateDto;
 import shop.iamhyunjun.ostargram.domain.post.entity.Post;
@@ -33,19 +34,19 @@ public class PostService {
     }
 
     //글 단건 조회
-    public Post findPost(Long postId) {
-        Post foundPost = postRepository.findById(postId).orElseThrow(
+    public PostResponseDto findPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ExceptionMessageEnum.NOT_EXISTED_POST.getMessage())
         );
+        PostResponseDto foundPost = new PostResponseDto(post);
         return foundPost;
     }
 
     //글 작성
     @Transactional
-    public Post save(PostSaveDto postSaveDto, UserDetailsImpl userDetails,String image) {
+    public void save(PostSaveDto postSaveDto, UserDetailsImpl userDetails,String image) {
         Post savePost = new Post(postSaveDto, userDetails.getUser(),image);
         postRepository.save(savePost);
-        return savePost;
     }
 
     //글 수정
@@ -68,7 +69,6 @@ public class PostService {
         if (userDetails.getUser().getId().equals(foundPost.getCreatedBy())){
             postRepository.deleteById(postId);
         } else throw new IllegalAccessException(ExceptionMessageEnum.NOT_AUTHORITY_OF_DELETE.getMessage());
-
     }
 
 }

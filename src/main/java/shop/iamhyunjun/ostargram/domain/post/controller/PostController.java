@@ -2,6 +2,7 @@ package shop.iamhyunjun.ostargram.domain.post.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import shop.iamhyunjun.ostargram.domain.file.service.ImageService;
 import shop.iamhyunjun.ostargram.domain.post.dto.*;
-import shop.iamhyunjun.ostargram.domain.post.entity.Post;
 import shop.iamhyunjun.ostargram.domain.post.service.PostService;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsImpl;
 
@@ -24,6 +24,9 @@ public class PostController {
     private final PostService postService;
     private final ImageService imageService;
 
+    @Value("${default.image}")
+    private String defaultImage;
+
     //글 목록 조회
     @GetMapping
     public ResponseEntity<PostDataDto> postList() {
@@ -33,11 +36,18 @@ public class PostController {
     }
 
     //글 작성
-    @PostMapping
+    @PostMapping                   //ModelAttribute로 PostSaveDto로 제목, 내용, 이미지 파일을 받음
     public ResponseEntity<PostMessageDto> write(@Validated @ModelAttribute PostSaveDto postSaveDto,
-                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        String saveImage = imageService.uploadFile(postSaveDto.getImage());
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 첨부 이미지 없을 시 기본 이미지 저장
+        String saveImage;
+        if (postSaveDto.getImage() == null) {
+            saveImage = defaultImage;
+            postService.save(postSaveDto, userDetails, saveImage);
+            PostMessageDto postMessageDto = new PostMessageDto(201, "글 작성 완료");
+            return new ResponseEntity<>(postMessageDto, HttpStatus.CREATED);
+        }
+        saveImage = imageService.uploadFile(postSaveDto.getImage());
         postService.save(postSaveDto,userDetails,saveImage);
         PostMessageDto postMessageDto = new PostMessageDto(201, "글 작성 완료");
         return new ResponseEntity<>(postMessageDto, HttpStatus.CREATED);
@@ -46,8 +56,8 @@ public class PostController {
     //글 단건 조회
     @GetMapping("/{postId}")
     public ResponseEntity<PostDataDto> seePost(@PathVariable Long postId) {
-        Post post = postService.findPost(postId);
-        PostDataDto postDataDto = new PostDataDto(200, "글 조회 완료", new PostResponseDto(post));
+        PostResponseDto foundPost = postService.findPost(postId);
+        PostDataDto postDataDto = new PostDataDto(200, "글 조회 완료", foundPost);
         return new ResponseEntity<>(postDataDto, HttpStatus.OK);
     }
 
