@@ -54,7 +54,7 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./wef.zip s3://$S3_BUCKET_NAME/
+      run: aws s3 cp --region ap-northeast-2 ./ostargram.zip s3://$S3_BUCKET_NAME/
 
 
 # Deploy
@@ -67,5 +67,5 @@ jobs:
         --application-name ostargram
         --deployment-group-name ostargram
         --file-exists-behavior OVERWRITE 
-        --s3-location bucket=test332-bucket,bundleType=zip,key=wef.zip
+        --s3-location bucket=ostargram-bucket,bundleType=zip,key=ostargram.zip
         --region ap-northeast-2
