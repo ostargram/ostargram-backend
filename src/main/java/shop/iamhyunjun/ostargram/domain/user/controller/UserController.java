@@ -11,10 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import shop.iamhyunjun.ostargram.domain.user.dto.LoginRequestDto;
-import shop.iamhyunjun.ostargram.domain.user.dto.UserLoginResponseDto;
-import shop.iamhyunjun.ostargram.domain.user.dto.UserSignupRequestDto;
-import shop.iamhyunjun.ostargram.domain.user.dto.UserSignupResponseDto;
+import shop.iamhyunjun.ostargram.domain.user.dto.*;
 
 import shop.iamhyunjun.ostargram.domain.user.service.UserService;
 import shop.iamhyunjun.ostargram.security.message.ResponseMessage;
@@ -49,5 +46,4 @@ public class UserController {
         return new ResponseEntity<>(userLoginResponseDto,
                 HttpStatus.OK);
     }
-
 }

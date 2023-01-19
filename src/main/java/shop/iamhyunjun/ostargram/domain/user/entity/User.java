@@ -8,11 +8,12 @@ import shop.iamhyunjun.ostargram.domain.email.entity.EmailValidation;
 import shop.iamhyunjun.ostargram.security.entity.TimeStamped;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
 @Entity(name = "users")
-public class User extends TimeStamped{
+public class User extends TimeStamped implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
