@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 JAR_REPOSITORY=/home/ubuntu/app/build/libs
-REPOSITORY=/home/ubuntu/app/
+REPOSITORY=/home/ubuntu/app
 JAR_NAME=$(ls -tr $JAR_REPOSITORY/ostargram-0.0.1-SNAPSHOT.jar | tail -n 1)
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
