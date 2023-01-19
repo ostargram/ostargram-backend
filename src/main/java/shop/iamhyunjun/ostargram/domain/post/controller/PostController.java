@@ -36,6 +36,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<PostMessageDto> write(@Validated @ModelAttribute PostSaveDto postSaveDto,
                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         String saveImage = imageService.uploadFile(postSaveDto.getImage());
         postService.save(postSaveDto,userDetails,saveImage);
         PostMessageDto postMessageDto = new PostMessageDto(201, "글 작성 완료");
