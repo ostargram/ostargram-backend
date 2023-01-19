@@ -23,9 +23,7 @@ import shop.iamhyunjun.ostargram.domain.user.repository.UserRepository;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsServiceImpl;
 
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLIntegrityConstraintViolationException;
+
 import java.util.Optional;
 
 
@@ -68,11 +66,10 @@ public class UserService {
         emailService.sendSimpleMessage(user.getEmail(), user.getUsername(), user.getId());
 
 
-
-
-
         return new UserSignupResponseDto(201, "회원 가입 성공");
     }
+
+
 
 
 //    @Transactional

@@ -37,7 +37,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                          AuthenticationException authenticationException) throws IOException {
 
         SecurityExceptionDto exceptionDto;
-        log.warn("인증 실패" + request.getRequestURI());
+
+        if (!"/".equals(request.getRequestURI())) {
+            log.warn("인증 실패" + request.getRequestURI());
+        }
 
 //        String URI = request.getRequestURI();
 

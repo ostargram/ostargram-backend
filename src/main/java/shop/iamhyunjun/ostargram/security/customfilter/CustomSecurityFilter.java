@@ -50,12 +50,22 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         String contentType = request.getContentType();
 
-        log.info("requestURI = " + requestURI);
+
+        // 로드밸런서의 상태확인 때문에 / 접근은 로그 제외
+        if(!"/".equals(requestURI)){
+            log.info("requestURI = " + requestURI);
+        }
 
         String username = null;
         String password = null;
 
-        System.out.println(request.getHeader(""));
+
+        if (!"/".equals(requestURI)) {
+
+            log.info("custom Filter JSESSION ID : " + request.getSession().getId());
+
+        }
+
 
         // ID, PW 추출 로직
         // JSON Data로 Request가 왔을 때.
@@ -110,6 +120,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
                 context.setAuthentication(authentication);
                 SecurityContextHolder.setContext(context);
 
+                log.info("Login ID : " + username);
 
             } catch (IllegalArgumentException e) {
 

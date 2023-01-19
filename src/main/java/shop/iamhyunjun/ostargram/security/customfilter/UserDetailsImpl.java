@@ -1,5 +1,6 @@
 package shop.iamhyunjun.ostargram.security.customfilter;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +10,10 @@ import shop.iamhyunjun.ostargram.domain.user.entity.UserRoleEnum;
 import java.util.ArrayList;
 import java.util.Collection;
 
-// custom Filter
+
+
+
+@EqualsAndHashCode(of= {"username"})
 public class UserDetailsImpl implements UserDetails {
 
 
@@ -68,5 +72,7 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+
 
 }
