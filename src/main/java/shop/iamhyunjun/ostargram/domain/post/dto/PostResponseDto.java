@@ -23,22 +23,25 @@ public class PostResponseDto {
 
     private String content;
 
+    private String image;
+
     private LocalDateTime createdAt;
 
     private Integer totalLikes = 0;
 
-    private List<CommentResponseDto> commentList = new ArrayList<>();
+    private List<CommentResponseDto> comments = new ArrayList<>();
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
+        this.image = post.getImage();
         this.createdAt = post.getCreatedAt();
         this.totalLikes = post.getTotalLikes();
-        List<Comment> commentList1 = post.getCommentList();
-        log.info("commentList = " + commentList.size());
-        for (Comment comment : commentList1) {
-            this.commentList.add(new CommentResponseDto(comment));
+        List<Comment> commentList = post.getCommentList();
+        log.info("commentList = " + comments.size());
+        for (Comment comment : commentList) {
+            this.comments.add(new CommentResponseDto(comment));
         }
     }
 
