@@ -18,6 +18,8 @@ public class PostListDto {
 
     private String content;
 
+    private String image;
+
     private LocalDateTime createdAt;
 
     private Integer totalLikes = 0;
@@ -26,6 +28,7 @@ public class PostListDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
+        this.image = post.getImage();
         this.createdAt = post.getCreatedAt();
         this.totalLikes = post.getTotalLikes();
     }

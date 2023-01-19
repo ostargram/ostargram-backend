@@ -41,8 +41,8 @@ public class PostService {
 
     //글 작성
     @Transactional
-    public Post save(PostSaveDto postSaveDto, UserDetailsImpl userDetails) {
-        Post savePost = new Post(postSaveDto, userDetails.getUser());
+    public Post save(PostSaveDto postSaveDto, UserDetailsImpl userDetails,String image) {
+        Post savePost = new Post(postSaveDto, userDetails.getUser(),image);
         postRepository.save(savePost);
         return savePost;
     }
