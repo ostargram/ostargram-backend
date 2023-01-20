@@ -10,30 +10,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import shop.iamhyunjun.ostargram.domain.user.controller.UserController;
 import shop.iamhyunjun.ostargram.domain.user.dto.LoginRequestDto;
-import shop.iamhyunjun.ostargram.domain.user.repository.UserRepository;
-import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsServiceImpl;
 import shop.iamhyunjun.ostargram.security.dto.SecurityExceptionDto;
 import shop.iamhyunjun.ostargram.security.message.ResponseMessage;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.ReadOnlyBufferException;
 import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor

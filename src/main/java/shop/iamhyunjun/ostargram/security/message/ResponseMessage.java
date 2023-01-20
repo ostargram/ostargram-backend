@@ -1,8 +1,5 @@
 package shop.iamhyunjun.ostargram.security.message;
 
-import lombok.Getter;
-
-import java.util.Arrays;
 
 
 public class ResponseMessage {
