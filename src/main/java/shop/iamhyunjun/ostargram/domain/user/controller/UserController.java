@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDto> login(@ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<UserLoginResponseDto> login(@AuthenticationPrincipal UserDetails userDetails) {
 
         UserLoginResponseDto userLoginResponseDto =
                 new UserLoginResponseDto(200, ResponseMessage.LOGIN_SUCCESS);
