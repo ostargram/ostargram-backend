@@ -10,8 +10,8 @@
 
 [👉 API 명세 notion 버전 바로가기](https://tropical-airplane-e09.notion.site/API-78011fc832244b32a05a0e632ecc9f50)
 
-# 와이어 프레임
-[와이어 프레임](https://excalidraw.com/#room=d35a57fea48cfe98d1be,Nuw95qZAHrpx3OlqVX5X2w)
+# [와이어 프레임](https://excalidraw.com/#room=d35a57fea48cfe98d1be,Nuw95qZAHrpx3OlqVX5X2w)
+![image](https://user-images.githubusercontent.com/87173870/213646898-f90e0969-81a6-4535-9829-3ab740e4c9ee.png)
 
 # [ERD](https://www.erdcloud.com/d/iKteCux8oPDvdgPDL)
 ![image](https://user-images.githubusercontent.com/87173870/213593068-0ba1f43e-e8f8-4992-9f5f-676cb11e38a6.png)
