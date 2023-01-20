@@ -38,7 +38,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
             String converterName = converter.getClass().getSimpleName();
             return converterName.equals("MappingJackson2HttpMessageConverter");
         });
-//        Add your custom MappingJackson2HttpMessageConverter
+
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -48,57 +48,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.extendMessageConverters(converters);
     }
 
-//// jwt  버전
-//@Bean
-//public Docket api() {
-//    return new Docket(DocumentationType.SWAGGER_2)
-//            .useDefaultResponseMessages(false)
-//            .select()
-//            .apis(RequestHandlerSelectors.any())
-////            .paths(PathSelectors.ant("/api/**"))
-//            .build()
-//            .apiInfo(metaData())
-//            .securityContexts(Arrays.asList(securityContext()))
-//            .securitySchemes(Arrays.asList(apiKey()));
-//
-//}
-//
-//    private ApiInfo metaData() {
-//        return new ApiInfoBuilder()
-//                .title("Hanghae99 REST API")
-//                .description("로그인 후 나오는 토큰 값을 Authorize에 입력하고 사용!")
-//                .version("0.0.1")
-//                .termsOfServiceUrl("Terms of service")
-//                .contact(new Contact("Hyun Jun Hwang", "https://github.com/hyunjunhwang1994/spring_deeping_week_assignment", "hyunjunhwang1994@gmail.com"))
-//                .license("Apache License Version 2.0")
-//                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
-//                .build();
-//    }
-//
-//    private ApiKey apiKey() {
-//        return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
-//    }
-//
-//
-//    private SecurityContext securityContext() {
-//        return springfox
-//                .documentation
-//                .spi.service
-//                .contexts
-//                .SecurityContext
-//                .builder()
-//                .securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
-//    }
-//
-//    List<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
-//    }
-//
-//}
-    // 세션 버전
+
     @Bean
     public OpenAPI api() {
         Info info = new Info()

@@ -26,11 +26,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import shop.iamhyunjun.ostargram.security.customfilter.CustomSecurityFilter;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsServiceImpl;
 import shop.iamhyunjun.ostargram.security.dto.SecurityExceptionDto;
+import shop.iamhyunjun.ostargram.security.exception.CustomAccessDeniedHandler;
 import shop.iamhyunjun.ostargram.security.exception.CustomAuthenticationEntryPoint;
 
 
 import java.io.OutputStream;
-import java.io.PrintWriter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -39,7 +39,7 @@ import java.io.PrintWriter;
 public class WebSecurityConfig {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-//    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final UserDetailsServiceImpl userDetailsService;
 
 
@@ -67,7 +67,6 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         // h2-console 사용 및 resources 접근 허용 설정
         return (web) -> web.ignoring()
-//                .requestMatchers(PathRequest.toH2Console())
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
@@ -91,11 +90,6 @@ public class WebSecurityConfig {
         http.formLogin().loginPage("/users/login-page").permitAll();
 
         http.sessionManagement();
-//                .invalidSessionUrl("/invalid")
-//                .maximumSessions(1)
-//                .maxSessionsPreventsLogin(true)
-//                .expiredUrl("/expired")
-//                .sessionRegistry(sessionRegistry());
 
 
 
@@ -128,7 +122,7 @@ public class WebSecurityConfig {
         http.cors().configurationSource(corsConfigurationSource());
 
         // 403, 인가 실패 핸들러
-//        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
 
         /// 401 인증 실패 핸들러
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
@@ -144,7 +138,6 @@ public class WebSecurityConfig {
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        configuration.addExposedHeader("authorization");
         configuration.addExposedHeader("*");
 
         configuration.setAllowCredentials(true);
@@ -156,14 +149,5 @@ public class WebSecurityConfig {
 
     }
 
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
-
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-    }
 
 }
