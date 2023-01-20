@@ -21,7 +21,7 @@ public class CommentLikesService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public CommentLikes execute(Long commentId, User user) {
+    public CommentLikes clickLikesButton(Long commentId, User user) {
         Optional<CommentLikes> optionalCommentLikes = commentLikesRepository.findByCommentIdAndCreatedBy(commentId, user.getId());
 
         // 좋아요 한 적 없을 때

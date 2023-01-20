@@ -28,12 +28,14 @@ public class PostLikes extends BaseEntity {
         this.post.plusLike();
     }
 
+    // 좋아요 취소 처리 로직
     public PostLikes cancelLikeButton() {
         this.isLiked = false;
         this.post.minusLike();
         return this;
     }
 
+    // 좋아요 누름 처리 로직
     public PostLikes pressLikeButton() {
         this.isLiked = true;
         this.post.plusLike();

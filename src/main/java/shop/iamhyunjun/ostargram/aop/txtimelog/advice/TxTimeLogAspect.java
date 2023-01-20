@@ -24,9 +24,10 @@ public class TxTimeLogAspect {
 
     private final TxTimeLogRepository timeLogRepository;
 
+    // root 부터 domain 디렉토리까지 문자열 수
     private static Integer declaringTypeNameStartIndex = 33;
 
-    // 도메인 내부 모든 컨트롤러에 적용
+    // 도메인 내부 모든 컨트롤러 모든 메소드에 적용
     @Around("execution(* shop.iamhyunjun.ostargram.domain..*Controller.*(..))")
     public Object doTxTimeLog(ProceedingJoinPoint joinPoint) throws Throwable {
         long txBefore = System.currentTimeMillis();
@@ -38,15 +39,15 @@ public class TxTimeLogAspect {
         Long txMillis = txAfter - txBefore;
 
         if (txMillis > 3000l) {
-            String txSource = makeTxSource(joinPoint);
-            log.warn("[TRANSACTION WARNING: {}ms]", txMillis);
-            timeLogRepository.save(new TxTimeLog(txMillis, txSource));
+            String methodName = createMethodName(joinPoint);
+            log.warn("[TRANSACTION WARNING : {}ms]", txMillis);
+            timeLogRepository.save(new TxTimeLog(txMillis, methodName));
         }
 
         return result;
     }
 
-    private String makeTxSource(ProceedingJoinPoint joinPoint) {
+    private String createMethodName(ProceedingJoinPoint joinPoint) {
         // 메소드 명
         String methodName = joinPoint.getSignature().getName();
 

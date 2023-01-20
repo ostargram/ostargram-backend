@@ -21,7 +21,7 @@ public class PostLikesService {
     private final PostRepository postRepository;
 
     @Transactional
-    public PostLikes execute(Long postId, User user) {
+    public PostLikes clickLikesButton(Long postId, User user) {
         Optional<PostLikes> optionalPostLikes = postLikesRepository.findByPostIdAndCreatedBy(postId, user.getId());
 
         // 좋아요 한 적 없을 때
