@@ -19,14 +19,14 @@ public class AwsConfig {
     @Value("${cloud.aws.credentials.secretKey}")
     private String awsSecretKey;
 
-    @Bean
+    @Bean // 빈 등록해서 의존성 주입
     public StaticCredentialsProvider getAwsBasicCredentials() {
         return StaticCredentialsProvider.create(
                 AwsBasicCredentials.create(awsAccessKey, awsSecretKey)
         );
     }
 
-    @Bean
+    @Bean // 빈 등록해서 의존성 주입
     public S3Client s3Client(){
         return S3Client.builder()
                 .credentialsProvider(getAwsBasicCredentials())

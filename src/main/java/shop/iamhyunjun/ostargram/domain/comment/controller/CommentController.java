@@ -12,6 +12,7 @@ import shop.iamhyunjun.ostargram.domain.comment.dto.CommentUpdateDto;
 import shop.iamhyunjun.ostargram.domain.comment.service.CommentService;
 import shop.iamhyunjun.ostargram.domain.post.dto.PostMessageDto;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsImpl;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class CommentController {
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<PostMessageDto> edit(@PathVariable Long commentId,
                        @Validated @RequestBody CommentUpdateDto commentUpdateDto,
-                       @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         commentService.updateComment(commentId, commentUpdateDto, userDetails);
         PostMessageDto postMessageDto = new PostMessageDto(200, "댓글 수정 완료");
         return new ResponseEntity<>(postMessageDto,HttpStatus.OK);
@@ -39,7 +40,7 @@ public class CommentController {
 
     @DeleteMapping("/comments/{commentId}")
     public ResponseEntity<PostMessageDto> delete(@PathVariable Long commentId,
-                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         commentService.delete(commentId, userDetails);
         PostMessageDto postMessageDto = new PostMessageDto(200, "댓글 삭제 완료");
         return new ResponseEntity<>(postMessageDto,HttpStatus.OK);

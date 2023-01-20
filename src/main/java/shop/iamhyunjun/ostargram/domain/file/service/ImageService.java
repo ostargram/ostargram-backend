@@ -24,13 +24,12 @@ public class ImageService {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-
+    //AwsConfig에 Bean 등록 해둬서 의존성 주입 받음
     private final S3Client s3;
 
     // 파일 업로드인데 메서드를 추출해뒀음
     public String uploadFile(MultipartFile multipartFile) {
-
-        log.info("service");
+        //컨텐츠 타입명
         String contentType = multipartFile.getContentType();
         //업로드한 파일명
         String originalFilename = multipartFile.getOriginalFilename();
@@ -56,6 +55,7 @@ public class ImageService {
         return response.eTag();
     }
 
+    // 이미지의 byte 배열을 구하는 매서드
     // inputStream close 하려고 씀
     private static byte[] getObjectFile(MultipartFile multipartFile) {
 
@@ -83,7 +83,7 @@ public class ImageService {
     //이미지 URL 얻어오는 메서드
     public URL getURL(S3Client s3, String bucketName, String keyName) {
         GetUrlRequest request = GetUrlRequest.builder()
-                .bucket(bucketName)
+                .bucket(bucket)
                 .key(keyName)
                 .build();
         try {

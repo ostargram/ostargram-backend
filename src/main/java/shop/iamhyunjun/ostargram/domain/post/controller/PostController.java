@@ -12,6 +12,7 @@ import shop.iamhyunjun.ostargram.domain.file.service.ImageService;
 import shop.iamhyunjun.ostargram.domain.post.dto.*;
 import shop.iamhyunjun.ostargram.domain.post.service.PostService;
 import shop.iamhyunjun.ostargram.security.customfilter.UserDetailsImpl;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class PostController {
     //글 작성
     @PostMapping                   //ModelAttribute로 PostSaveDto로 제목, 내용, 이미지 파일을 받음
     public ResponseEntity<PostMessageDto> write(@Validated @ModelAttribute PostSaveDto postSaveDto,
-                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 첨부 이미지 없을 시 기본 이미지 저장
         String saveImage;
         if (postSaveDto.getImage() == null) {
@@ -65,7 +66,7 @@ public class PostController {
     @PutMapping("/{postId}")
     public ResponseEntity<PostMessageDto> edit(@PathVariable Long postId,
                        @Validated @RequestBody PostUpdateDto postUpdateDto,
-                       @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         postService.updatePost(postId, postUpdateDto,userDetails);
         PostMessageDto postMessageDto = new PostMessageDto(200, "글 수정 완료");
         return new ResponseEntity<>(postMessageDto,HttpStatus.OK);
@@ -74,7 +75,7 @@ public class PostController {
     //글 삭제
     @DeleteMapping("/{postId}")
     public ResponseEntity<PostMessageDto> delete(@PathVariable Long postId,
-                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
         postService.delete(postId,userDetails);
         PostMessageDto postMessageDto = new PostMessageDto(200, "글 삭제 완료");
         return new ResponseEntity<>(postMessageDto,HttpStatus.OK);
