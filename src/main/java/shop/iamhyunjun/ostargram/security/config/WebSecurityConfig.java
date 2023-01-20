@@ -2,6 +2,7 @@ package shop.iamhyunjun.ostargram.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,7 @@ import java.io.PrintWriter;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@Slf4j
 public class WebSecurityConfig {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -71,6 +73,8 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        log.info("tteesstt");
         // CSRF 설정
         http.csrf().disable();
 
