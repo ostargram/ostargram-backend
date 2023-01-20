@@ -70,43 +70,4 @@ public class UserService {
     }
 
 
-
-
-//    @Transactional
-//    public UserLoginResponseDto signIn(String userId, String pw, HttpServletResponse response) {
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-//
-//        if(!passwordEncoder.matches(pw, userDetails.getPassword())){
-//            throw new BadCredentialsException(userDetails.getUsername() + "Invalid password");
-//        }
-//
-//        Authentication authentication =  new UsernamePasswordAuthenticationToken(
-//                userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-//
-//        log.info("signIn service | authentication.getName : {}, authentication.getCredentials() : {}",
-//                authentication.getName(), authentication.getCredentials());
-//
-//
-//
-//        response.addHeader(AUTHORIZATION_HEADER,"Bearer-"+ jwtTokenProvider.createAccessToken(authentication));
-//        response.addHeader(REFRESH_HEADER, "Bearer-"+jwtTokenProvider.issueRefreshToken(authentication));
-//
-//
-//
-//
-//
-////        return new LoginResponseDto(
-////                "Bearer-"+jwtTokenProvider.createAccessToken(authentication),
-////                "Bearer-"+jwtTokenProvider.issueRefreshToken(authentication));
-//
-//        return new UserLoginResponseDto(200, "로그인 성공");
-//    }
-//
-//    private void validateDuplicateUser(String userId){
-//        userRepository.findByUsername(userId)
-//                .ifPresent(member -> {
-//                    log.debug("userId : {}, 아이디 중복으로 회원가입 실패", userId);
-//                    throw new RuntimeException("아이디 중복");
-//                });
-//    }
 }
