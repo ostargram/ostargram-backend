@@ -1,8 +1,11 @@
 package shop.iamhyunjun.ostargram.exception.advice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,6 +18,7 @@ import java.util.stream.Collectors;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -41,6 +45,17 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
 
         ExceptionResponseListMessage message = new ExceptionResponseListMessage(BAD_REQUEST.value(), errors);
+        return new ResponseEntity<>(message, HttpStatus.valueOf(message.getStatus()));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponseMessage> bindExceptionExceptionHandle(BindException exception) {
+        BindingResult bindingResult = exception.getBindingResult();
+        FieldError fieldError = bindingResult.getFieldError();
+        log.info("[field : {}]", fieldError.getField());
+        log.info("[message : {}]", bindingResult.getFieldError().getDefaultMessage());
+        ExceptionResponseMessage message = new ExceptionResponseMessage(BAD_REQUEST.value(), exception.getMessage());
+
         return new ResponseEntity<>(message, HttpStatus.valueOf(message.getStatus()));
     }
 
