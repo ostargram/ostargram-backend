@@ -15,6 +15,7 @@ import shop.iamhyunjun.ostargram.domain.user.dto.*;
 
 import shop.iamhyunjun.ostargram.domain.user.service.UserService;
 import shop.iamhyunjun.ostargram.security.message.ResponseMessage;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDto> login(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<UserLoginResponseDto> login(@ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
 
         UserLoginResponseDto userLoginResponseDto =
                 new UserLoginResponseDto(200, ResponseMessage.LOGIN_SUCCESS);
